@@ -9,7 +9,7 @@ describe("ProductRepository test", () => {
 
   beforeEach(async () => {
     sequelize = new Sequelize({
-      dialect: "sqlite" as "sqlite",
+      dialect: "sqlite",
       storage: ":memory:",
       logging: false,
       sync: { force: true },
