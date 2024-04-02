@@ -2,10 +2,7 @@ import Id from "../../../@shared/domain/value-object/id.value-object";
 import UseCaseInterface from "../../../@shared/usecase/use-case.interface";
 import Client from "../../domain/client.entity";
 import ClientGateway from "../../gateway/client.gateway";
-import {
-  AddClientInputDto,
-  AddClientOutputDto,
-} from "./add-client.usecase.dto";
+import { AddClientInputDto, AddClientOutputDto } from "./add-client.dto";
 
 export default class AddClientUseCase implements UseCaseInterface {
   private _clientRepository: ClientGateway;
