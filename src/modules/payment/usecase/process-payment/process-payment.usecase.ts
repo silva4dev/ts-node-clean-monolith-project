@@ -28,7 +28,7 @@ export default class ProcessPaymentUseCase implements UseCaseInterface {
       transactionId: persistTransaction.id.id,
       orderId: persistTransaction.orderId,
       amount: persistTransaction.amount,
-      status: transaction.status,
+      status: persistTransaction.status,
       createdAt: persistTransaction.createdAt,
       updatedAt: persistTransaction.updatedAt,
     };
