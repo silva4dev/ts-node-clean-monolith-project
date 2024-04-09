@@ -7,7 +7,7 @@ describe("Client e2e test", () => {
   });
 
   it("should create a client", async () => {
-    const response = await request(app).post("/client").send({
+    const response = await request(app).post("/clients").send({
       name: "João da Silva",
       email: "joao@example.com",
       document: "12345678900",
@@ -33,7 +33,7 @@ describe("Client e2e test", () => {
   });
 
   it("should get a client", async () => {
-    const response = await request(app).post("/client").send({
+    const response = await request(app).post("/clients").send({
       name: "João da Silva",
       email: "joao@example.com",
       document: "12345678900",
@@ -47,7 +47,7 @@ describe("Client e2e test", () => {
 
     const idClient = response.body.id;
     const responseGetClient = await request(app)
-      .get(`/client/${idClient}`)
+      .get(`/clients/${idClient}`)
       .send();
 
     expect(responseGetClient.status).toBe(200);

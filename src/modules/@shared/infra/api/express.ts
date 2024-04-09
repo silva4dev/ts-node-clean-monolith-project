@@ -15,8 +15,8 @@ import { invoiceRoute } from "../../../invoice/infra/api/routes/invoice.route";
 
 export const app: Express = express();
 app.use(express.json());
-app.use("/product", productRoute);
-app.use("/client", clientRoute);
+app.use("/products", productRoute);
+app.use("/clients", clientRoute);
 app.use("/checkout", checkoutRoute);
 app.use("/invoice", invoiceRoute);
 export let sequelize: Sequelize;

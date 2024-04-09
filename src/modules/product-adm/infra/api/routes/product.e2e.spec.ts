@@ -7,7 +7,7 @@ describe("Product e2e test", () => {
   });
 
   it("should create a product", async () => {
-    const response = await request(app).post("/product").send({
+    const response = await request(app).post("/products").send({
       name: "Camiseta",
       description: "Camiseta de algodao estampada",
       price: 79.9,
@@ -23,7 +23,7 @@ describe("Product e2e test", () => {
   });
 
   it("should check stock a product", async () => {
-    const response = await request(app).post("/product").send({
+    const response = await request(app).post("/products").send({
       name: "Camiseta",
       description: "Camiseta de algodao estampada",
       price: 79.9,
@@ -32,7 +32,7 @@ describe("Product e2e test", () => {
 
     const idProduct = response.body.id;
     const responseCheckStock = await request(app)
-      .get(`/product/${idProduct}/checkstock`)
+      .get(`/products/${idProduct}/checkstock`)
       .send();
 
     expect(responseCheckStock.status).toBe(200);

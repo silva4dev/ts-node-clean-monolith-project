@@ -7,7 +7,7 @@ describe("E2E test for find invoice", () => {
   });
 
   it("should find a invoice", async () => {
-    var response = await request(app).post("/product").send({
+    var response = await request(app).post("/products").send({
       name: "Camiseta 1",
       description: "Camiseta de algodao estampada",
       price: 79.9,
@@ -16,7 +16,7 @@ describe("E2E test for find invoice", () => {
     expect(response.status).toBe(200);
     const idProduct1 = response.body.id;
 
-    response = await request(app).post("/product").send({
+    response = await request(app).post("/products").send({
       name: "Camiseta 2",
       description: "Camiseta de algodao florida",
       price: 179.9,
@@ -26,7 +26,7 @@ describe("E2E test for find invoice", () => {
     expect(response.status).toBe(200);
     const idProduct2 = response.body.id;
 
-    response = await request(app).post("/client").send({
+    response = await request(app).post("/clients").send({
       name: "João da Silva",
       email: "joao@example.com",
       document: "12345678900",
