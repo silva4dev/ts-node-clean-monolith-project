@@ -7,6 +7,6 @@ import {
 export default interface ClientAdmFacadeInterface {
   addClient(input: AddClientFacadeInputDto): Promise<void>;
   findClient(
-    input: FindClientFacadeInputDto
+    input: FindClientFacadeInputDto,
   ): Promise<FindClientFacadeOutputDto>;
 }

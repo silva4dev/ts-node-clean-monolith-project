@@ -1,10 +1,10 @@
 export interface FindProductInputDto {
-    id: string;
-}   
+  id: string;
+}
 
 export interface FindProductOutputDto {
-    id: string;
-    name: string;
-    description: string;
-    price: number;
+  id: string;
+  name: string;
+  description: string;
+  price: number;
 }

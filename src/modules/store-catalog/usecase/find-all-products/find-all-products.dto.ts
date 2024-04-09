@@ -1,11 +1,10 @@
-export interface FindAllProductsInputDto {
-}
+export interface FindAllProductsInputDto {}
 
 export interface FindAllProductsOutputDto {
-    products: {
-        id: string;
-        name: string;
-        description: string;
-        price: number;
-    }[];
+  products: {
+    id: string;
+    name: string;
+    description: string;
+    price: number;
+  }[];
 }

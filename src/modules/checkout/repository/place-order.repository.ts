@@ -29,26 +29,26 @@ export default class PlaceOrderRepository implements CheckoutGateway {
           price: items.price,
           orderId: order.id.id,
         })),
-        total: order.products.reduce((acc, items) => (acc + items.price), 0),
+        total: order.products.reduce((acc, items) => acc + items.price, 0),
         status: order.status,
         createdAt: order.createdAt,
         updatedAt: order.updatedAt,
       },
       {
-        include: [{ model: OrderItemModel }]        
-      }
+        include: [{ model: OrderItemModel }],
+      },
     );
   }
-  
+
   async findOrder(id: string): Promise<Order | null> {
-    const order = await OrderModel.findOne({ 
+    const order = await OrderModel.findOne({
       where: { id },
-      include: ["items"]
+      include: ["items"],
     });
 
     if (!order) {
       throw new Error("Order not found");
-    }  
+    }
 
     return new Order({
       id: new Id(order.id),
@@ -63,16 +63,17 @@ export default class PlaceOrderRepository implements CheckoutGateway {
         city: order.city,
         state: order.state,
         zipCode: order.zipCode,
-      }),      
-      products: order.items.map((items) => 
-        new Product({
-          id: new Id(items.id), 
-          name: items.name,
-          description: items.description,
-          price: items.price,
-        })
+      }),
+      products: order.items.map(
+        (items) =>
+          new Product({
+            id: new Id(items.id),
+            name: items.name,
+            description: items.description,
+            price: items.price,
+          }),
       ),
       status: order.status,
-    });    
+    });
   }
 }

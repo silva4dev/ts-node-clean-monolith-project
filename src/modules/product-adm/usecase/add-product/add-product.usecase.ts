@@ -5,35 +5,32 @@ import { AddProductInputDto, AddProductOutputDto } from "./add-product.dto";
 import UseCaseInterface from "../../../@shared/usecase/use-case.interface";
 
 export default class AddProductUseCase implements UseCaseInterface {
-    
-    private _productRepository: ProductGateway;
-    
-    constructor(_productRepository: ProductGateway) {
-        this._productRepository = _productRepository
-    }
+  private _productRepository: ProductGateway;
 
-    async execute(input: AddProductInputDto): Promise<AddProductOutputDto> {
+  constructor(_productRepository: ProductGateway) {
+    this._productRepository = _productRepository;
+  }
 
-        const props = {
-            id: new Id(input.id),
-            name: input.name,
-            description: input.description,
-            price: input.price,
-            stock: input.stock
-        }
+  async execute(input: AddProductInputDto): Promise<AddProductOutputDto> {
+    const props = {
+      id: new Id(input.id),
+      name: input.name,
+      description: input.description,
+      price: input.price,
+      stock: input.stock,
+    };
 
-        const product = new Product(props);
-        this._productRepository.add(product);
+    const product = new Product(props);
+    this._productRepository.add(product);
 
-        return {
-            id: product.id.id,
-            name: product.name,
-            description: product.description,
-            price: product.price,
-            stock: product.stock,
-            createdAt: product.createdAt,
-            updatedAt: product.updatedAt
-        }
-    }
-
+    return {
+      id: product.id.id,
+      name: product.name,
+      description: product.description,
+      price: product.price,
+      stock: product.stock,
+      createdAt: product.createdAt,
+      updatedAt: product.updatedAt,
+    };
+  }
 }

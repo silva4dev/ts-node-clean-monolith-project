@@ -6,43 +6,40 @@ import PaymentFacade from "./payment.facade";
 import PaymentFacadeFactory from "../factory/facade.factory";
 
 describe("PaymentFacade tests", () => {
+  let sequelize: Sequelize;
 
-    let sequelize: Sequelize;	
-
-    beforeEach(async () => {
-         sequelize = new Sequelize({
-            dialect: "sqlite",
-            storage: ":memory:",
-            logging: false,
-            sync: { force: true }
-
-        });
-
-        await sequelize.addModels([TransactionModel]);
-        await sequelize.sync();
+  beforeEach(async () => {
+    sequelize = new Sequelize({
+      dialect: "sqlite",
+      storage: ":memory:",
+      logging: false,
+      sync: { force: true },
     });
 
-    afterEach(async () => {
-        await sequelize.close();
-    });
+    await sequelize.addModels([TransactionModel]);
+    await sequelize.sync();
+  });
 
-    it("should create a transaction", async() => {
-        // const transactionRepository = new TransactionRepository();
-        // const useCase = new ProcessPaymentUsecase(transactionRepository);
-        // const facade = new PaymentFacade(useCase);
-        
-        const facade = PaymentFacadeFactory.create();
-        const input = {
-            orderId: "1",
-            amount: 100
-        };
+  afterEach(async () => {
+    await sequelize.close();
+  });
 
-        const output =  await facade.process(input);
+  it("should create a transaction", async () => {
+    // const transactionRepository = new TransactionRepository();
+    // const useCase = new ProcessPaymentUsecase(transactionRepository);
+    // const facade = new PaymentFacade(useCase);
 
-        expect(output.transactionId).toBeDefined();
-        expect(output.orderId).toBe(input.orderId);
-        expect(output.amount).toBe(input.amount);
-        expect(output.status).toBe("approved");
-    });
+    const facade = PaymentFacadeFactory.create();
+    const input = {
+      orderId: "1",
+      amount: 100,
+    };
 
+    const output = await facade.process(input);
+
+    expect(output.transactionId).toBeDefined();
+    expect(output.orderId).toBe(input.orderId);
+    expect(output.amount).toBe(input.amount);
+    expect(output.status).toBe("approved");
+  });
 });

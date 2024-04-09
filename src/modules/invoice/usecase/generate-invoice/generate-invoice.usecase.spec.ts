@@ -1,69 +1,65 @@
 import GenerateInvoiceUseCase from "./generate-invoice.usecase";
 
 describe("Generate invoice usecase unit test", () => {
-    const MockRepository = () => {
-        return {
-            save: jest.fn(),
-            find: jest.fn(),
-        };
+  const MockRepository = () => {
+    return {
+      save: jest.fn(),
+      find: jest.fn(),
+    };
+  };
+
+  it("should generate an invoice", async () => {
+    const repository = MockRepository();
+    const usecase = new GenerateInvoiceUseCase(repository);
+
+    const input = {
+      name: "John Doe",
+      document: "123456789",
+      street: "Rua 1",
+      number: "123",
+      complement: "Casa",
+      city: "Cidade",
+      state: "Estado",
+      zipCode: "12345678",
+      items: [
+        {
+          id: "1",
+          name: "item 1",
+          price: 10,
+        },
+        {
+          id: "2",
+          name: "item 2",
+          price: 20,
+        },
+      ],
     };
 
-    it("should generate an invoice", async () => {
-    
-        const repository = MockRepository();
-        const usecase = new GenerateInvoiceUseCase(repository);
+    const result = await usecase.execute(input);
 
-        const input = {
-            name: "John Doe",
-            document: "123456789",
-            street: "Rua 1",
-            number: "123",
-            complement: "Casa",
-            city: "Cidade",
-            state: "Estado",
-            zipCode: "12345678",
-            items: [
-                {
-                    id : "1",
-                    name: "item 1",
-                    price: 10
-                },
-                {
-                    id : "2",
-                    name: "item 2",
-                    price: 20
-                }
-            ]
-        };
+    expect(repository.save).toHaveBeenCalled();
+    expect(result.id).toBeDefined();
+    expect(result.name).toBe(input.name);
+    expect(result.document).toBe(input.document);
+    expect(result.street).toBe(input.street);
+    expect(result.number).toBe(input.number);
+    expect(result.complement).toBe(input.complement);
+    expect(result.city).toBe(input.city);
+    expect(result.state).toBe(input.state);
+    expect(result.zipCode).toBe(input.zipCode);
 
-        const result = await usecase.execute(input);
+    expect(result.items).toHaveLength(2);
 
-        expect(repository.save).toHaveBeenCalled();
-        expect(result.id).toBeDefined();
-        expect(result.name).toBe(input.name);
-        expect(result.document).toBe(input.document);
-        expect(result.street).toBe(input.street);
-        expect(result.number).toBe(input.number);
-        expect(result.complement).toBe(input.complement);
-        expect(result.city).toBe(input.city);
-        expect(result.state).toBe(input.state);
-        expect(result.zipCode).toBe(input.zipCode);
-        
-        expect(result.items).toHaveLength(2);
+    expect(result.items[0].id).toBeDefined();
+    expect(result.items[0].id).toBe(input.items[0].id);
+    expect(result.items[0].name).toBe(input.items[0].name);
+    expect(result.items[0].price).toBe(input.items[0].price);
 
-        expect(result.items[0].id).toBeDefined();
-        expect(result.items[0].id).toBe(input.items[0].id);
-        expect(result.items[0].name).toBe(input.items[0].name);
-        expect(result.items[0].price).toBe(input.items[0].price);
-        
-        expect(result.items[1].id).toBeDefined();
-        expect(result.items[1].id).toBe(input.items[1].id);
-        expect(result.items[1].name).toBe(input.items[1].name);
-        expect(result.items[1].price).toBe(input.items[1].price);
+    expect(result.items[1].id).toBeDefined();
+    expect(result.items[1].id).toBe(input.items[1].id);
+    expect(result.items[1].name).toBe(input.items[1].name);
+    expect(result.items[1].price).toBe(input.items[1].price);
 
-        expect(result.total).toBe(30);
-
-    });
-
-
+    expect(result.total).toBe(30);
+  });
 });

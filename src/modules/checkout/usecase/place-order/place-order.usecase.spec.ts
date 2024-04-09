@@ -17,7 +17,7 @@ describe("PlaceOrderUsecase unit test", () => {
       };
 
       await expect(
-        placeOrderUsecase["validateProducts"](input)
+        placeOrderUsecase["validateProducts"](input),
       ).rejects.toThrow(new Error("No products selected"));
     });
 
@@ -27,7 +27,7 @@ describe("PlaceOrderUsecase unit test", () => {
           Promise.resolve({
             productId,
             stock: productId === "1" ? 0 : 1,
-          })
+          }),
         ),
       };
 
@@ -40,7 +40,7 @@ describe("PlaceOrderUsecase unit test", () => {
       };
 
       await expect(
-        placeOrderUsecase["validateProducts"](input)
+        placeOrderUsecase["validateProducts"](input),
       ).rejects.toThrow(new Error("Product 1 is not avaible in stock"));
 
       input = {
@@ -49,7 +49,7 @@ describe("PlaceOrderUsecase unit test", () => {
       };
 
       await expect(
-        placeOrderUsecase["validateProducts"](input)
+        placeOrderUsecase["validateProducts"](input),
       ).rejects.toThrow(new Error("Product 1 is not avaible in stock"));
 
       expect(mockCatalogFacade.checkStock).toHaveBeenCalledTimes(3);
@@ -60,7 +60,7 @@ describe("PlaceOrderUsecase unit test", () => {
       };
 
       await expect(
-        placeOrderUsecase["validateProducts"](input)
+        placeOrderUsecase["validateProducts"](input),
       ).rejects.toThrow(new Error("Product 1 is not avaible in stock"));
 
       expect(mockCatalogFacade.checkStock).toHaveBeenCalledTimes(5);
@@ -88,7 +88,7 @@ describe("PlaceOrderUsecase unit test", () => {
       //@ts-expect-error - force set productFacade
       placeOrderUsecase["_catalogFacade"] = mockCatalogFacade;
       await expect(placeOrderUsecase["getProduct"]("0")).rejects.toThrow(
-        new Error("Product not found")
+        new Error("Product not found"),
       );
     });
 
@@ -110,7 +110,7 @@ describe("PlaceOrderUsecase unit test", () => {
           name: "Product 1",
           description: "Product 1 description",
           price: 10,
-        })
+        }),
       );
 
       expect(mockCatalogFacade.find).toHaveBeenCalledTimes(1);
@@ -143,7 +143,7 @@ describe("PlaceOrderUsecase unit test", () => {
       };
 
       await expect(placeOrderUsecase.execute(input)).rejects.toThrow(
-        new Error("Client not found")
+        new Error("Client not found"),
       );
     });
 
@@ -170,7 +170,7 @@ describe("PlaceOrderUsecase unit test", () => {
       };
 
       await expect(placeOrderUsecase.execute(input)).rejects.toThrow(
-        new Error("No products selected")
+        new Error("No products selected"),
       );
 
       expect(mockValidateProducts).toHaveBeenCalledTimes(1);
@@ -215,7 +215,7 @@ describe("PlaceOrderUsecase unit test", () => {
         null,
         mockCheckoutRepository,
         mockInvoiceFacade as any,
-        mockPaymantFacade as any
+        mockPaymantFacade as any,
       );
 
       const products = {

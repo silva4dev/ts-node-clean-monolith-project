@@ -25,7 +25,7 @@ export default class PlaceOrderUsecase implements UseCaseInterface {
     catalogFacade: StoreCatalogFacade,
     repository: CheckoutGateway,
     invoiceFacade: InvoiceFacade,
-    paymentFacade: PaymentFacade
+    paymentFacade: PaymentFacade,
   ) {
     this._clientFacade = clientFacade;
     this._productFacade = productFacade;
@@ -44,7 +44,7 @@ export default class PlaceOrderUsecase implements UseCaseInterface {
     await this.validateProducts(input);
 
     const products = await Promise.all(
-      input.products.map((p) => this.getProduct(p.productId))
+      input.products.map((p) => this.getProduct(p.productId)),
     );
 
     const clientEntity = new Client({
