@@ -1,60 +1,62 @@
 import AggregateRoot from "../../@shared/domain/entity/aggregate-root.interface";
-import BaseEntity from "../../@shared/domain/entity/base.entity";
+import BaseEntity from "../../@shared/domain/entity/base.entity"
 import Id from "../../@shared/domain/value-object/id.value-object";
 
 type ProductProps = {
-  id?: Id;
-  name: string;
-  description: string;
-  purchasePrice: number;
-  stock: number;
-  createdAt?: Date;
-  updatedAt?: Date;
-};
+    id?: Id 
+    name: string;
+    description: string;
+    price: number; //preco de compra
+    stock: number;
+    createdAt?: Date;
+    updatedAt?: Date;
+}
 
 export default class Product extends BaseEntity implements AggregateRoot {
-  private _name: string;
-  private _description: string;
-  private _purchasePrice: number;
-  private _stock: number;
 
-  constructor(props: ProductProps) {
-    super(props.id);
-    this._name = props.name;
-    this._description = props.description;
-    this._purchasePrice = props.purchasePrice;
-    this._stock = props.stock;
-  }
+    private _name: string;
+    private _description: string;
+    private _purchasePrive: number;
+    private _stock: number; 
 
-  get name(): string {
-    return this._name;
-  }
+    constructor(props: ProductProps) {
+        super(props.id);
+        this._name = props.name;
+        this._description = props.description;
+        this._purchasePrive = props.price;
+        this._stock = props.stock;
+    }
 
-  get description(): string {
-    return this._description;
-  }
+    get name(): string {
+        return this._name;
+    }
 
-  get purchasePrice(): number {
-    return this._purchasePrice;
-  }
+    get description(): string {
+        return this._description;
+    }
 
-  get stock(): number {
-    return this._stock;
-  }
+    get price(): number {
+        return this._purchasePrive;
+    }
+    
+    get stock(): number {
+        return this._stock;
+    }
 
-  set name(name: string) {
-    this._name = name;
-  }
+    set name(name: string) {
+        this._name = name;
+    }
 
-  set stock(stock: number) {
-    this._stock = stock;
-  }
+    set description(description: string) {
+        this._description = description;
+    }
 
-  set description(description: string) {
-    this._description = description;
-  }
+    set price(price: number) {
+        this._purchasePrive = price;
+    }
 
-  set purchasePrice(purchasePrice: number) {
-    this._purchasePrice = purchasePrice;
-  }
+    set stock(stock: number) {
+        this._stock = stock;
+    }
+
 }

@@ -4,9 +4,17 @@ import FindClientUseCase from "./find-client.usecase";
 
 const client = new Client({
   id: new Id("1"),
-  name: "Client 1",
-  email: "x@x.com",
-  address: "Address 1",
+  name: "John Doe",
+  email: "john@john.com",
+  document: "123456",
+  street: "Rua 1",
+  number: "123",
+  complement: "Complemento",
+  city: "Cidade",
+  state: "Estado",
+  zipCode: "123456",
+  createdAt: new Date(),
+  updatedAt: new Date(),
 });
 
 const MockRepository = () => {
@@ -16,23 +24,19 @@ const MockRepository = () => {
   };
 };
 
-describe("Find Client Usecase unit tests", () => {
-  it("should add a client", async () => {
-    const clientRepository = MockRepository();
-    const usecase = new FindClientUseCase(clientRepository);
+describe("Find client usecase unit test", () => {
+  it("should find a client", async () => {
+    const repository = MockRepository();
+    const usecase = new FindClientUseCase(repository);
 
     const input = {
       id: "1",
     };
 
-    const output = await usecase.execute(input);
-
-    expect(clientRepository.find).toHaveBeenCalled();
-    expect(output.id).toBe(input.id);
-    expect(output.name).toBe(client.name);
-    expect(output.email).toBe(client.email);
-    expect(output.address).toBe(client.address);
-    expect(output.createdAt).toBe(client.createdAt);
-    expect(output.updatedAt).toBe(client.updatedAt);
+    const result = await usecase.execute(input);
+    expect(repository.find).toHaveBeenCalled();
+    expect(result.id).toBeDefined();
+    expect(result.name).toBe(client.name);
+    expect(result.email).toBe(client.email);
   });
 });

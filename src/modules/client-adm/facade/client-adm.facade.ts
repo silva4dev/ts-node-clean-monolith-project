@@ -1,31 +1,32 @@
 import UseCaseInterface from "../../@shared/usecase/use-case.interface";
-import ClientAdmFacadeInterface, {
+import {
   AddClientFacadeInputDto,
   FindClientFacadeInputDto,
   FindClientFacadeOutputDto,
-} from "./client-adm.facade.interface";
+} from "./client-adm.facade.dto";
+import ClientAdmFacadeInterface from "./client-adm.facade.interface";
 
 export interface UseCaseProps {
-  findUsecase: UseCaseInterface;
-  addUsecase: UseCaseInterface;
+  addClientUseCase: UseCaseInterface;
+  findClientUseCase: UseCaseInterface;
 }
 
 export default class ClientAdmFacade implements ClientAdmFacadeInterface {
-  private _findUsecase: UseCaseInterface;
-  private _addUsecase: UseCaseInterface;
+  private _addClientUseCase: UseCaseInterface;
+  private _findClientUseCase: UseCaseInterface;
 
-  constructor(usecaseProps: UseCaseProps) {
-    this._addUsecase = usecaseProps.addUsecase;
-    this._findUsecase = usecaseProps.findUsecase;
+  constructor(props: UseCaseProps) {
+    this._addClientUseCase = props.addClientUseCase;
+    this._findClientUseCase = props.findClientUseCase;
   }
 
-  async add(input: AddClientFacadeInputDto): Promise<void> {
-    await this._addUsecase.execute(input);
+  async addClient(input: AddClientFacadeInputDto): Promise<void> {
+    await this._addClientUseCase.execute(input);
   }
 
-  async find(
+  async findClient(
     input: FindClientFacadeInputDto
   ): Promise<FindClientFacadeOutputDto> {
-    return await this._findUsecase.execute(input);
+    return this._findClientUseCase.execute(input);
   }
 }

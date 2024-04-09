@@ -1,24 +1,25 @@
 import UseCaseInterface from "../../../@shared/usecase/use-case.interface";
+import { FindAllStoreCatalogFacadeInputDto, FindAllStoreCatalogFacadeOutputDto } from "../../facade/store-catalog.facade.dto";
 import ProductGateway from "../../gateway/product.gateway";
-import { findAllProductsOutputDto } from "./find-all-products.dto";
+import { FindAllProductsInputDto, FindAllProductsOutputDto } from "./find-all-products.dto";
 
 export default class FindAllProductsUsecase implements UseCaseInterface {
-  private _productRepository: ProductGateway;
 
-  constructor(_productRepository: ProductGateway) {
-    this._productRepository = _productRepository;
-  }
+    private productGateway: ProductGateway;
 
-  async execute(): Promise<findAllProductsOutputDto> {
-    const products = await this._productRepository.findAll();
+    constructor(productGateway: ProductGateway) {
+        this.productGateway = productGateway;
+    }
 
-    return {
-      products: products.map((product) => ({
-        id: product.id.id,
-        name: product.name,
-        description: product.description,
-        salesPrice: product.salesPrice,
-      })),
-    };
-  }
+    async execute(input: FindAllProductsInputDto): Promise<FindAllProductsOutputDto> {
+        const products = await this.productGateway.findAll();
+        return {
+            products: products.map(product => ({
+                id: product.id.id,
+                name: product.name,
+                description: product.description,
+                price: product.price,
+            }))
+        };
+    }
 }

@@ -1,33 +1,34 @@
-import { AddProductInputDto } from "./add-product.dto";
 import AddProductUseCase from "./add-product.usecase";
 
-const MockRepository = () => {
-  return {
-    add: jest.fn(),
-    find: jest.fn(),
-  };
-};
-
 describe("Add Product usecase unit test", () => {
-  it("should add a product", async () => {
-    // Repository
-    const productRepository = MockRepository();
-    // Usecase
-    const usecase = new AddProductUseCase(productRepository);
-    // Input
-    const input: AddProductInputDto = {
-      name: "Product 1",
-      description: "Product 1 description",
-      purchasePrice: 100,
-      stock: 10,
+
+    const MockRepository = () => {
+        return {
+            add: jest.fn(),
+            find: jest.fn(),
+        };
     };
-    // Output
-    const output = await usecase.execute(input);
-    expect(productRepository.add).toHaveBeenCalled();
-    expect(output.id).toBeDefined();
-    expect(output.name).toBe(input.name);
-    expect(output.description).toBe(input.description);
-    expect(output.purchasePrice).toBe(input.purchasePrice);
-    expect(output.stock).toBe(input.stock);
-  });
+
+    it("should add a product", async () => {
+        const productRepository = MockRepository();
+        const usecase = new AddProductUseCase(productRepository);
+        
+        const input = {
+            name: "Product Name",
+            description: "Product Description",
+            price: 100,
+            stock: 10
+        };
+        
+        const output = await usecase.execute(input);
+
+        expect(productRepository.add).toBeCalled()
+        expect(output.id).toBeDefined();
+        expect(output.name).toBe(input.name);
+        expect(output.description).toBe(input.description);
+        expect(output.price).toBe(input.price);
+        expect(output.stock).toBe(input.stock);
+
+    });
+
 });

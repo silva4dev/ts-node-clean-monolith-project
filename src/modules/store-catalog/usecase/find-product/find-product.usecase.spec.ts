@@ -3,34 +3,32 @@ import Product from "../../domain/product.entity";
 import FindProductUseCase from "./find-product.usecase";
 
 const product = new Product({
-  id: new Id("1"),
-  name: "Product 1",
-  description: "Product 1 description",
-  salesPrice: 100,
+    id: new Id("1"),
+    name: 'Product 1',
+    description: 'Description 1',
+    price: 10,
 });
 
-const MockRepository = () => {
-  return {
-    findAll: jest.fn(),
-    find: jest.fn().mockReturnValue(Promise.resolve(product)),
-  };
+const mockRepository = () => {
+    return {
+        findAll: jest.fn(),
+        find: jest.fn().mockResolvedValue(Promise.resolve(product)),
+    };
 };
 
-describe("Find product usecase unit test", () => {
-  it("should find a product", async () => {
-    const productRepository = MockRepository();
-    const usecase = new FindProductUseCase(productRepository);
+describe('FindProductUseCase test', () => {
+    it('should find a product', async () => {
+        const repository =  mockRepository();
+        const useCase = new FindProductUseCase(repository);
 
-    const input = {
-      id: "1",
-    };
+        const input = {
+            id: product.id.id,
+        } 
 
-    const output = await usecase.execute(input);
-
-    expect(productRepository.find).toHaveBeenCalled();
-    expect(output.id).toBe("1");
-    expect(output.name).toBe("Product 1");
-    expect(output.description).toBe("Product 1 description");
-    expect(output.salesPrice).toBe(100);
-  });
+        const result = await useCase.execute(input);
+        expect(repository.find).toHaveBeenCalledWith(input.id)
+        expect(result.id).toBe(product.id.id);
+        expect(result.name).toBe(product.name);
+        expect(result.description).toBe(product.description);
+    });
 });

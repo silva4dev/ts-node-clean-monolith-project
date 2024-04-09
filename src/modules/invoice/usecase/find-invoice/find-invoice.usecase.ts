@@ -1,35 +1,42 @@
-import InvoiceGateway from "../../gateway/invoice.gateway";
-import { FindInvoiceInputDto, FindInvoiceOutputDto } from "./find-invoice.dto";
+import UseCaseInterface from "../../../@shared/usecase/use-case.interface";
+import InvoiceGateway from "../../gateway/client.gateway";
+import { FindInvoiceUseCaseInputDTO, FindInvoiceUseCaseOutputDTO } from "./find-invoice-dto";
 
-export default class FindInvoiceUseCase {
-  private _invoiceRepository: InvoiceGateway;
+export default class FindInvoiceUseCase implements UseCaseInterface {
 
-  constructor(invoiceRepository: InvoiceGateway) {
-    this._invoiceRepository = invoiceRepository;
-  }
+    private _invoiceRepository: InvoiceGateway;
 
-  async execute(input: FindInvoiceInputDto): Promise<FindInvoiceOutputDto> {
-    const invoice = await this._invoiceRepository.find(input.id);
+    constructor(invoiceRepository: InvoiceGateway) {
+        this._invoiceRepository = invoiceRepository;
+    }
 
-    return {
-      id: invoice.id.id,
-      name: invoice.name,
-      document: invoice.document,
-      address: {
-        street: invoice.address.street,
-        number: invoice.address.number,
-        complement: invoice.address.complement,
-        city: invoice.address.city,
-        state: invoice.address.state,
-        zipCode: invoice.address.zipCode,
-      },
-      items: invoice.items.map((item) => ({
-        id: item.id.id,
-        name: item.name,
-        price: item.price,
-      })),
-      total: invoice.total,
-      createdAt: invoice.createdAt,
-    };
-  }
+    async execute(input: FindInvoiceUseCaseInputDTO): Promise<FindInvoiceUseCaseOutputDTO> {
+        const result = await this._invoiceRepository.find(input.id);
+
+        const items = result.items.map(item => {
+            return {
+                id: item.id.id,
+                name: item.name,
+                price: item.price,
+            }
+        });
+
+        return {
+            id: result.id.id,
+            name: result.name,
+            document: result.document,
+            address: {
+                street: result.address.street,
+                number: result.address.number,
+                complement: result.address.complement,
+                city: result.address.city,
+                state: result.address.state,
+                zipCode: result.address.zipCode,
+            },
+            items: items,
+            total: result.total,
+            createdAt: result.createdAt
+        }
+    }
+
 }

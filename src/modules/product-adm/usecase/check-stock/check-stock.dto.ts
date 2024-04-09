@@ -1,8 +1,9 @@
 export interface CheckStockInputDto {
-  productId: string;
+    productId: string;
 }
 
 export interface CheckStockOutputDto {
-  productId: string;
-  stock: number;
+    productId: string;
+    productName: string;
+    stock: number;
 }

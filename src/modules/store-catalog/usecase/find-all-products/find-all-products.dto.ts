@@ -1,8 +1,11 @@
-export interface findAllProductsOutputDto {
-  products: {
-    id: string;
-    name: string;
-    description: string;
-    salesPrice: number;
-  }[];
+export interface FindAllProductsInputDto {
+}
+
+export interface FindAllProductsOutputDto {
+    products: {
+        id: string;
+        name: string;
+        description: string;
+        price: number;
+    }[];
 }

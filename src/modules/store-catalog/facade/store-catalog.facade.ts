@@ -1,32 +1,28 @@
-import FindAllProductsUsecase from "../usecase/find-all-products/find-all-products.usecase";
-import FindProductUseCase from "../usecase/find-product/find-product.usecase";
-import StoreCatalogFacadeInterface, {
-  FindAllStoreCatalogFacadeOutputDto,
-  FindStoreCatalogFacadeInputDto,
-  FindStoreCatalogFacadeOutputDto,
-} from "./store-catalog.facade.interface";
+import UseCaseInterface from "../../@shared/usecase/use-case.interface";
+import { FindAllStoreCatalogFacadeInputDto, FindAllStoreCatalogFacadeOutputDto, FindStoreCatalogFacadeInputDto, FindStoreCatalogFacadeOutputDto } from "./store-catalog.facade.dto";
+import StoreCatalogFacadeInterface from "./store-catalog.facade.interface";
 
-export interface UseCaseProps {
-  findUseCase: FindProductUseCase;
-  findAllUseCase: FindAllProductsUsecase;
+export interface UseCaseProp {
+    findProductUseCase: UseCaseInterface
+    findAllProductsUseCase: UseCaseInterface
 }
 
 export default class StoreCatalogFacade implements StoreCatalogFacadeInterface {
-  private _findUseCase: FindProductUseCase;
-  private _findAllUseCase: FindAllProductsUsecase;
+    
+    private _findProductUseCase: UseCaseInterface;
+    private _findAllproductsUseCase: UseCaseInterface;
 
-  constructor(props: UseCaseProps) {
-    this._findUseCase = props.findUseCase;
-    this._findAllUseCase = props.findAllUseCase;
-  }
+    constructor(useCaseProp: UseCaseProp) {
+        this._findProductUseCase = useCaseProp.findProductUseCase;
+        this._findAllproductsUseCase = useCaseProp.findAllProductsUseCase;
+    } 
 
-  async find(
-    id: FindStoreCatalogFacadeInputDto
-  ): Promise<FindStoreCatalogFacadeOutputDto> {
-    return await this._findUseCase.execute(id);
-  }
+    find(input: FindStoreCatalogFacadeInputDto): Promise<FindStoreCatalogFacadeOutputDto> {
+        return this._findProductUseCase.execute(input);
+    }
 
-  async findAll(): Promise<FindAllStoreCatalogFacadeOutputDto> {
-    return await this._findAllUseCase.execute();
-  }
+    findAll(input: FindAllStoreCatalogFacadeInputDto): Promise<FindAllStoreCatalogFacadeOutputDto> {
+        return this._findAllproductsUseCase.execute(input);
+    }
+
 }

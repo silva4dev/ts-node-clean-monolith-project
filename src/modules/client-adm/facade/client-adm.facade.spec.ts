@@ -1,6 +1,10 @@
 import { Sequelize } from "sequelize-typescript";
 import { ClientModel } from "../repository/client.model";
-import ClientAdmFacadeFactory from "../factory/client-adm.facade.factory";
+import ClientRepository from "../repository/client.repository";
+import AddClientUseCase from "../usecase/add-client/add-client.usecase";
+import ClientAdmFacade from "./client-adm.facade";
+import FindClientUseCase from "../usecase/find-client/find-client.usecase";
+import ClientAdmFacadeFactory from "../factory/facade.factory";
 
 describe("ClientAdmFacade test", () => {
   let sequelize: Sequelize;
@@ -27,18 +31,28 @@ describe("ClientAdmFacade test", () => {
     const input = {
       id: "1",
       name: "Client 1",
-      email: "x@x.com",
-      address: "Address 1",
+      email: "client@client",
+      document: "123456789",
+      street: "Rua do client",
+      number: "123",
+      complement: "Complemento do client",
+      city: "Cidade do client",
+      state: "Estado do client",
+      zipCode: "12345678",
     };
 
-    await facade.add(input);
-
+    await facade.addClient(input);
     const client = await ClientModel.findOne({ where: { id: "1" } });
-
-    expect(client).toBeDefined();
-    expect(client.name).toBe(input.name);
-    expect(client.email).toBe(input.email);
-    expect(client.address).toBe(input.address);
+    expect(client.id).toEqual(input.id);
+    expect(client.name).toEqual(input.name);
+    expect(client.email).toEqual(input.email);
+    expect(client.document).toEqual(input.document);
+    expect(client.street).toEqual(input.street);
+    expect(client.number).toEqual(input.number);
+    expect(client.complement).toEqual(input.complement);
+    expect(client.city).toEqual(input.city);
+    expect(client.state).toEqual(input.state);
+    expect(client.zipCode).toEqual(input.zipCode);
   });
 
   it("should find a client", async () => {
@@ -47,17 +61,30 @@ describe("ClientAdmFacade test", () => {
     const input = {
       id: "1",
       name: "Client 1",
-      email: "x@x.com",
-      address: "Address 1",
+      email: "client@client",
+      document: "123456789",
+      street: "Rua do client",
+      number: "123",
+      complement: "Complemento do client",
+      city: "Cidade do client",
+      state: "Estado do client",
+      zipCode: "12345678",
+    };
+    await facade.addClient(input);
+
+    const inputFind = {
+      id: "1",
     };
 
-    await facade.add(input);
-    const output = await facade.find({ id: "1" });
-
-    expect(output).toBeDefined();
-    expect(output.id).toBe(input.id);
-    expect(output.name).toBe(input.name);
-    expect(output.email).toBe(input.email);
-    expect(output.address).toBe(input.address);
+    const client = await facade.findClient(inputFind);
+    expect(client.id).toEqual(input.id);
+    expect(client.name).toEqual(input.name);
+    expect(client.email).toEqual(input.email);
+    expect(client.street).toEqual(input.street);
+    expect(client.number).toEqual(input.number);
+    expect(client.complement).toEqual(input.complement);
+    expect(client.city).toEqual(input.city);
+    expect(client.state).toEqual(input.state);
+    expect(client.zipCode).toEqual(input.zipCode);
   });
 });
